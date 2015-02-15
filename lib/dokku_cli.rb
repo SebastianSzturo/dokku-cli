@@ -1,0 +1,89 @@
+require 'thor'
+
+require "dokku_cli/version"
+
+module DokkuCli
+  class Cli < Thor
+    desc "logs [-t]", "Display logs for the application (-t follows)"
+    def logs(*args)
+      if args.first && args.first.strip == "-t"
+        command = "ssh dokku@#{domain} logs #{app_name} -t"
+        puts "Running #{command}..."
+        exec(command)
+      else
+        run_command "logs #{app_name}"
+      end
+    end
+
+    desc "open", "Open the application in your default browser"
+    def open
+      # TODO: get domain from 'dokku domains'
+      exec("open http://#{app_name}.#{domain}")
+    end
+
+    desc "run <cmd>", "Run a one-off command in the environment of the application"
+    def walk(*args)
+      command = "#{args.join(' ')}"
+      case command.gsub(" ", "")
+      when "rakedb:drop"
+        puts "You cannot use `rake db:drop`. Use Dokku directly to delete the database."
+      when "rakedb:create"
+        puts "You cannot use `rake db:create`. Use Dokku directly to create the database."
+      else
+        run_command "run #{app_name} #{command}"
+      end
+    end
+
+    desc "ssh", "Start an SSH session as root user"
+    def ssh
+      command = "ssh root@#{domain}"
+      puts "Running #{command}..."
+      exec(command)
+    end
+
+    def help(method = nil)
+      method = "walk" if method == "run"
+      super
+    end
+
+    def method_missing(method, *args, &block)
+      if method.to_s.split(":").length >= 2
+        self.send(method.to_s.gsub(":", "_"), *args)
+      elsif method == :run
+        self.walk(*args)
+      else
+        super
+      end
+    end
+
+    private
+
+    def app_name
+      @app_name ||= git_config_match[2]
+    end
+
+    def domain
+      @domain ||= git_config_match[1]
+    end
+
+    def git_config_match
+      @git_config_match ||= begin
+        git_config = File.join(Dir.pwd, ".git", "config")
+        exit unless File.exist?(git_config)
+
+        git_config = File.read(git_config)
+        match = git_config.match(/url \= dokku@(.*):(.*)\n/).to_a
+        exit unless match
+
+        match
+      end
+    end
+
+    def run_command(command)
+      dokku_command = "ssh -t dokku@#{domain} #{command}"
+
+      puts "Running #{dokku_command}..."
+      exec(dokku_command)
+    end
+  end
+end
