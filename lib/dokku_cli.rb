@@ -41,6 +41,16 @@ module DokkuCli
       exec(command)
     end
 
+    desc "url", "Show the first URL for the app"
+    def url
+      run_command "url #{app_name}"
+    end
+
+    desc "urls", "Show all URLs for the app"
+    def urls
+      run_command "urls #{app_name}"
+    end
+
     def help(method = nil)
       method = "walk" if method == "run"
       super
