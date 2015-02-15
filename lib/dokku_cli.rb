@@ -1,6 +1,7 @@
 require 'thor'
 
 require "dokku_cli/version"
+require "dokku_cli/domains"
 
 module DokkuCli
   class Cli < Thor
