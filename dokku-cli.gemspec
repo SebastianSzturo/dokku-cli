@@ -5,7 +5,7 @@ require 'dokku_cli/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "dokku-cli"
-  spec.version       = DokkuCLI::VERSION
+  spec.version       = DokkuCli::VERSION
   spec.authors       = ["Sebastian Szturo"]
   spec.email         = ["s.szturo@me.com"]
   spec.description   = "Command line tool for Dokku."
