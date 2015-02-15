@@ -21,8 +21,8 @@ module DokkuCli
 
     desc "open", "Open the app in your default browser"
     def open
-      # TODO: get domain from 'dokku domains'
-      exec("open http://#{app_name}.#{domain}")
+      url = %x[dokku urls].split("\r").first
+      exec("open #{url}")
     end
 
     desc "run <cmd>", "Run a one-off command in the environment of the app"
