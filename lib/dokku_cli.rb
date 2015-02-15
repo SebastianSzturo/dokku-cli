@@ -4,7 +4,7 @@ require "dokku_cli/version"
 
 module DokkuCli
   class Cli < Thor
-    desc "logs [-t]", "Display logs for the application (-t follows)"
+    desc "logs [-t]", "Display logs for the app (-t follows)"
     def logs(*args)
       if args.first && args.first.strip == "-t"
         command = "ssh dokku@#{domain} logs #{app_name} -t"
@@ -15,13 +15,13 @@ module DokkuCli
       end
     end
 
-    desc "open", "Open the application in your default browser"
+    desc "open", "Open the app in your default browser"
     def open
       # TODO: get domain from 'dokku domains'
       exec("open http://#{app_name}.#{domain}")
     end
 
-    desc "run <cmd>", "Run a one-off command in the environment of the application"
+    desc "run <cmd>", "Run a one-off command in the environment of the app"
     def walk(*args)
       command = "#{args.join(' ')}"
       case command.gsub(" ", "")
