@@ -13,7 +13,7 @@ $ gem install dokku-cli
 
 ## Usage
 
-Dokku CLI reads the domain of your Dokku server from your git configuration file and requires no configuration. Change in your application directory and run
+Dokku CLI reads the domain of your Dokku server from your git configuration file and requires no configuration. Change in your application directory and run ``dokku``
 
 ```
 $ dokku help
