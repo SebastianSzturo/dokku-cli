@@ -47,7 +47,7 @@ module DokkuCli
       run_command "config:unset #{app_name} #{args.join(' ')}"
     end
     
-    desc "config:set:file Filename", "Set one or more environment variables from file"
+    desc "config:set:file path/to/file", "Set one or more environment variables from file"
     def config_set_file(config_file)
       config_params = ""
       if File.exists?(config_file)
