@@ -21,7 +21,7 @@ Commands:
   dokku config                                    # Display the app's environment variables
   dokku config:get KEY                            # Display an environment variable value
   dokku config:set KEY1=VALUE1 [KEY2=VALUE2 ...]  # Set one or more environment variables
-  dokku config:set:file path/to/file              # Set one or more environment variables from file
+  dokku config:set:file <path/to/file>            # Set one or more environment variables from file
   dokku config:unset KEY1 [KEY2 ...]              # Unset one or more environment variables
   dokku domains                                   # List custom domains for the app
   dokku domains:add DOMAIN                        # Add a custom domain to the app
