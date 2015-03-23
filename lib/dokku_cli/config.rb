@@ -46,6 +46,18 @@ module DokkuCli
     def config_unset(*args)
       run_command "config:unset #{app_name} #{args.join(' ')}"
     end
-
+    
+    desc "config:set:file path/to/file", "Set one or more environment variables from file"
+    def config_set_file(config_file)
+      config_params = ""
+      if File.exists?(config_file)
+        File.open(config_file).each_line do |line|
+          config_params += line.strip + " " unless line.start_with? "#" || line.strip == ""
+        end
+        config_set(config_params)
+      else
+        puts "File #{config_file} does not exist."
+      end
+    end
   end
 end
