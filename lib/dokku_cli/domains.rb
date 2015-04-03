@@ -8,7 +8,7 @@ module DokkuCli
 
     desc "domains:add DOMAIN", "Add a custom domain to the app"
     def domains_add(custom_domain)
-      run_command "domains:set #{app_name} #{custom_domain}"
+      run_command "domains:add #{app_name} #{custom_domain}"
     end
 
     desc "domains:clear","Clear all custom domains for app"
