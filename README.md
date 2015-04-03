@@ -1,10 +1,13 @@
 # Dokku CLI :anchor:
 
+[![Gem Version](https://badge.fury.io/rb/dokku-cli.svg)](http://badge.fury.io/rb/dokku-cli)
+[![Downloads](http://ruby-gem-downloads-badge.herokuapp.com/dokku-cli?type=total)](http://badge.fury.io/rb/dokku-cli)
+
 Dokku CLI is a zero config command line tool for the official version of [Dokku](https://github.com/progrium/dokku).
 
 The newest version of Dokku CLI is fully compatible with  ```Dokku 0.3.x```
 
-This project is a fork of [brianpattison/dokku-installer-cli](https://github.com/brianpattison/dokku-installer-cli). All credits for the amazing idea goes to @brianpattison.
+This project is a fork of [brianpattison/dokku-installer-cli](https://github.com/brianpattison/dokku-installer-cli).
 
 ## Installation
 ```
