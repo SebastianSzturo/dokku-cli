@@ -16,7 +16,43 @@ $ gem install dokku-cli
 
 ## Usage
 
-Dokku CLI reads the domain of your Dokku server from your git configuration file and requires no configuration. Change in your application directory and run ``dokku``
+Dokku CLI reads the domain of your Dokku server from your git remote called dokku and requires no configuration. Change in your application directory and run ``dokku``
+
+
+## Remote Commands
+
+```
+dokku run <cmd>   # Run a one-off command in the environment of the app
+```
+
+## Configuration Management
+
+```
+dokku config                                    # Display the app's environment variables
+dokku config:get KEY                            # Display an environment variable value
+dokku config:set KEY1=VALUE1 [KEY2=VALUE2 ...]  # Set one or more environment variables
+dokku config:set:file <path/to/file>            # Set one or more environment variables from file
+dokku config:unset KEY1 [KEY2 ...]              # Unset one or more environment variables
+```
+
+## Process/Container Management
+
+```
+dokku ps           # List processes running in app container(s)
+dokku ps:rebuild   # Rebuild the app
+dokku ps:restart   # Restart the app container
+dokku ps:start     # Start the app container
+```
+
+## Multiple Remote Apps/Servers (e.g. Staging)
+
+You can use the global option ``--remote`` to run commands on a different server/app from a remote branch. For more details see [heroku's guide](https://devcenter.heroku.com/articles/multiple-environments)  for multiple environments for an app.
+
+```
+dokku run rails c --remote staging
+```
+
+## All commands
 
 ```
 $ dokku help
