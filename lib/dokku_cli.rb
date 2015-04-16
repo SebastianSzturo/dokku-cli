@@ -8,6 +8,8 @@ require "dokku_cli/ps"
 
 module DokkuCli
   class Cli < Thor
+    class_option :remote
+
     desc "logs [-t]", "Display logs for the app (-t follows)"
     def logs(*args)
       if args.first && args.first.strip == "-t"
@@ -81,12 +83,15 @@ module DokkuCli
     end
 
     def git_config_match
+      remote = "dokku"
+      remote = options[:remote] if options[:remote]
+
       @git_config_match ||= begin
         git_config = File.join(Dir.pwd, ".git", "config")
         exit unless File.exist?(git_config)
 
         git_config = File.read(git_config)
-        match = git_config.match(/url \= dokku@(.*):(.*)\n/).to_a
+        match = git_config.match(/\[remote "#{remote}"\]\n\turl \= dokku@(.*):(.*)\n/).to_a
         exit unless match
 
         match
