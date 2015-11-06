@@ -91,7 +91,7 @@ module DokkuCli
         exit unless File.exist?(git_config)
 
         git_config = File.read(git_config)
-        match = git_config.match(/\[remote "#{remote}"\]\n\turl \= dokku@(.*):(.*)\n/).to_a
+        match = git_config.match(/\[remote "#{remote}"\]\s+url \= dokku@(.*):(.*)$/).to_a
         exit unless match
 
         match
@@ -99,6 +99,7 @@ module DokkuCli
     end
 
     def run_command(command)
+      command = command.gsub(/ --remote=[\S]*/, '')
       dokku_command = "ssh -t dokku@#{domain} #{command}"
 
       puts "Running #{dokku_command}..."
