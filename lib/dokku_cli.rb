@@ -10,14 +10,23 @@ module DokkuCli
   class Cli < Thor
     class_option :remote
 
-    desc "logs [-t]", "Display logs for the app (-t follows)"
-    def logs(*args)
-      if args.first && args.first.strip == "-t"
-        command = "ssh dokku@#{domain} logs #{app_name} -t"
+    desc "logs [-n num] [-p ps] [-q quiet [-t tail]", "Display logs for the app"
+    method_option :n, type: :numeric, aliases: %w{-num --num},
+      desc: "Limit to <n> number of lines"
+    method_option :p, type: :string, aliases: %w{-ps --ps},
+      desc: "Filter by <p> process"
+    method_option :q, type: :boolean, aliases: %w{-quiet --quiet},
+      desc: "Remove docker prefixes from output"
+    method_option :t, type: :boolean, aliases: %w{-tail --tail},
+      desc: "Follow output"
+    def logs
+      args = options.map{|k, v| "-#{k} #{v}"}.join(" ")
+      if args.empty?
+        run_command "logs #{app_name}"
+      else
+        command = "ssh dokku@#{domain} logs #{app_name} #{args}"
         puts "Running #{command}..."
         exec(command)
-      else
-        run_command "logs #{app_name}"
       end
     end
 
