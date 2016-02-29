@@ -34,7 +34,7 @@ module DokkuCli
         end
       }
 
-      command  = "ssh #{user}@#{domain} "
+      command  = "ssh -p #{port} #{user}@#{domain} "
       command += user == "root" ? "dokku " : ""
       command += "config:set #{app_name} #{args.join(' ')}"
 
@@ -46,7 +46,7 @@ module DokkuCli
     def config_unset(*args)
       run_command "config:unset #{app_name} #{args.join(' ')}"
     end
-    
+
     desc "config:set:file path/to/file", "Set one or more environment variables from file"
     def config_set_file(config_file)
       config_params = ""
