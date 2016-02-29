@@ -108,11 +108,11 @@ module DokkuCli
         config_file = File.read(config_path)
 
         # Default dokku config: dokku@host.com:app
-        default_style_regex = /\[remote "dokku"\]\s+url \= dokku@(?<domain>.*):(?<app_name>.*)$/
+        default_style_regex = /\[remote "#{remote}"\]\s+url \= dokku@(?<domain>.*):(?<app_name>.*)$/
         match ||= config_file.match(default_style_regex)
 
         # SSH dokku config: ssh://dokku@host.com:1337/app
-        ssh_style_regex = /\[remote "dokku"\]\s+url \= ssh:\/\/dokku@(?<domain>.*):(?<port>.*)\/(?<app_name>.*)$/
+        ssh_style_regex = /\[remote "#{remote}"\]\s+url \= ssh:\/\/dokku@(?<domain>.*):(?<port>.*)\/(?<app_name>.*)$/
         match ||= config_file.match(ssh_style_regex)
 
         exit unless match
