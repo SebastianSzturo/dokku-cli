@@ -52,7 +52,8 @@ dokku keys:add .ssh/id_rsa.pub Description
 You can use the global option ``--remote`` to run commands on a different server/app from a remote branch. For more details see [heroku's guide](https://devcenter.heroku.com/articles/multiple-environments)  for multiple environments for an app.
 
 ```
-dokku run rails c --remote staging
+dokku run rails c --remote=staging
+dokku config --remote=staging
 ```
 
 ## All commands
