@@ -7,6 +7,7 @@ require "dokku_cli/nginx"
 require "dokku_cli/ps"
 require "dokku_cli/events"
 require "dokku_cli/certs"
+require "dokku_cli/keys"
 
 module DokkuCli
   class Cli < Thor
