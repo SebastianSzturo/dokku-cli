@@ -24,7 +24,7 @@ module DokkuCli
       if args.empty?
         run_command "logs #{app_name}"
       else
-        command = "ssh dokku@#{domain} logs #{app_name} #{args}"
+        command = "ssh -p #{port} dokku@#{domain} logs #{app_name} #{args}"
         puts "Running #{command}..."
         exec(command)
       end
@@ -51,7 +51,7 @@ module DokkuCli
 
     desc "ssh", "Start an SSH session as root user"
     def ssh
-      command = "ssh root@#{domain}"
+      command = "ssh -p #{port} root@#{domain}"
       puts "Running #{command}..."
       exec(command)
     end
@@ -73,7 +73,7 @@ module DokkuCli
 
     def method_missing(method, *args, &block)
       if method.to_s.split(":").length >= 2
-        self.send(method.to_s.gsub(":", "_"), *args)
+        self.send(method.to_s.gsub(":", "_").gsub("-", "_"), *args)
       elsif method == :run
         self.walk(*args)
       else
@@ -84,24 +84,37 @@ module DokkuCli
     private
 
     def app_name
-      @app_name ||= git_config_match[2]
+      @app_name ||= git_config["app_name"]
     end
 
     def domain
-      @domain ||= git_config_match[1]
+      @domain ||= git_config["domain"]
     end
 
-    def git_config_match
+    def port
+      @port ||= git_config["port"]
+    end
+
+    def git_config
       remote = "dokku"
       remote = options[:remote] if options[:remote]
 
-      @git_config_match ||= begin
-        git_config = File.join(Dir.pwd, ".git", "config")
-        exit unless File.exist?(git_config)
+      @git_config ||= begin
+        config_path = File.join(Dir.pwd, ".git", "config")
+        exit unless File.exist?(config_path)
+        config_file = File.read(config_path)
 
-        git_config = File.read(git_config)
-        match = git_config.match(/\[remote "#{remote}"\]\s+url \= dokku@(.*):(.*)$/).to_a
+        # Default dokku config: dokku@host.com:app
+        default_style_regex = /\[remote "dokku"\]\s+url \= dokku@(?<domain>.*):(?<app_name>.*)$/
+        match ||= config_file.match(default_style_regex)
+
+        # SSH dokku config: ssh://dokku@host.com:1337/app
+        ssh_style_regex = /\[remote "dokku"\]\s+url \= ssh:\/\/dokku@(?<domain>.*):(?<port>.*)\/(?<app_name>.*)$/
+        match ||= config_file.match(ssh_style_regex)
+
         exit unless match
+        match = Hash[match.names.zip(match.captures)]
+        match["port"] ||= 22
 
         match
       end
@@ -109,7 +122,7 @@ module DokkuCli
 
     def run_command(command)
       command = command.gsub(/ --remote=[\S]*/, '')
-      dokku_command = "ssh -t dokku@#{domain} #{command}"
+      dokku_command = "ssh -t -p #{port} dokku@#{domain} #{command}"
 
       puts "Running #{dokku_command}..."
       exec(dokku_command)
