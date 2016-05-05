@@ -5,7 +5,7 @@
 
 Dokku CLI is a zero config command line tool for the official version of [Dokku](https://github.com/progrium/dokku).
 
-The newest version of Dokku CLI is fully compatible with  ```Dokku 0.4.x```
+The newest version of Dokku CLI is fully compatible with  ```Dokku 0.5.x```
 
 ## Installation
 ```
