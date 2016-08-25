@@ -35,7 +35,7 @@ module DokkuCli
 
     desc "open", "Open the app in your default browser"
     def open
-      url = %x[dokku urls].split("\r").first
+      url = %x[dokku urls --remote #{app_name}].split("\r").first
       exec("open #{url}")
     end
 
