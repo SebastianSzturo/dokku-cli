@@ -77,14 +77,6 @@ module DokkuCli
       super
     end
 
-    def method_missing(method, *args, &block)
-      if method.to_s.split(":").length >= 2
-        self.send(method.to_s.gsub(":", "_").gsub("-", "_"), *args)
-      else
-        super
-      end
-    end
-
     private
 
     def app_name

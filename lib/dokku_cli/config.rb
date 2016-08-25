@@ -1,6 +1,11 @@
 module DokkuCli
   class Cli < Thor
 
+    map "config:get" => "config_get",
+        "config:set" => "config_set",
+        "config:unset" => "config_unset",
+        "config:set:file" => "config_set_file"
+
     desc "config", "Display the app's environment variables"
     def config
       run_command "config #{app_name}"

@@ -1,6 +1,10 @@
 module DokkuCli
   class Cli < Thor
 
+    map "ps:rebuild" => "ps_rebuild",
+        "ps:restart" => "ps_restart",
+        "ps:start" => "ps_start"
+
     desc "ps", "List processes running in app container(s)"
     def ps
       run_command "ps #{app_name}"

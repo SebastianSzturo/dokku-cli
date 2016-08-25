@@ -1,6 +1,10 @@
 module DokkuCli
   class Cli < Thor
 
+    map "events:list" => "events_list",
+        "events:on" => "events_on",
+        "events:off" => "events_off"
+
     desc "events", "Show the last events (-t follows)"
     def events
       run_command "events #{app_name}"
