@@ -27,6 +27,8 @@ module DokkuCli
       if args.empty?
         run_command "logs #{app_name}"
       else
+        # remove unnecessary mapped remote option
+        args = args.gsub(/-remote [\S]*/, '')
         command = "ssh -p #{port} dokku@#{domain} logs #{app_name} #{args}"
         puts "Running #{command}..."
         exec(command)
@@ -35,7 +37,7 @@ module DokkuCli
 
     desc "open", "Open the app in your default browser"
     def open
-      url = %x[dokku urls].split("\r").first
+      url = %x[dokku urls --remote #{app_name}].split("\r").first
       exec("open #{url}")
     end
 
@@ -51,6 +53,7 @@ module DokkuCli
         run_command "run #{app_name} #{command}"
       end
     end
+    map "run" => "walk"
 
     desc "ssh", "Start an SSH session as root user"
     def ssh
@@ -72,16 +75,6 @@ module DokkuCli
     def help(method = nil)
       method = "walk" if method == "run"
       super
-    end
-
-    def method_missing(method, *args, &block)
-      if method.to_s.split(":").length >= 2
-        self.send(method.to_s.gsub(":", "_").gsub("-", "_"), *args)
-      elsif method == :run
-        self.walk(*args)
-      else
-        super
-      end
     end
 
     private

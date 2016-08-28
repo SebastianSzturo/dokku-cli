@@ -1,6 +1,10 @@
 module DokkuCli
   class Cli < Thor
 
+    map "domains:add" => "domains_add",
+        "domains:clear" => "domains_clear",
+        "domains:remove" => "domains_remove"
+
     desc "domains", "List custom domains for the app"
     def domains
       run_command "domains #{app_name}"

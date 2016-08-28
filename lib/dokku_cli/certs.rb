@@ -1,6 +1,12 @@
 module DokkuCli
   class Cli < Thor
 
+    map "certs:add" => "certs_add",
+        "certs:generate" => "certs_generate",
+        "certs:info" => "certs_info",
+        "certs:remove" => "certs_remove",
+        "certs:update" => "certs_update"
+
     desc "certs:add CRT KEY", "Add an ssl endpoint to an app. Can also import from a tarball on stdin."
     def certs_add(crt, key)
       run_command "certs:add #{app_name} #{crt} #{key}"
@@ -22,7 +28,7 @@ module DokkuCli
     end
 
     desc "certs:update CRT KEY", "Update an SSL Endpoint on an app. Can also import from a tarball on stdin"
-    def certs_remove(crt, key)
+    def certs_update(crt, key)
       run_command "certs:update #{app_name} #{crt} #{key}"
     end
   end
