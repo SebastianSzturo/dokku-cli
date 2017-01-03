@@ -34,10 +34,11 @@ dokku config:unset KEY1 [KEY2 ...]              # Unset one or more environment 
 ## Process/Container Management
 
 ```
-dokku ps           # List processes running in app container(s)
-dokku ps:rebuild   # Rebuild the app
-dokku ps:restart   # Restart the app container
-dokku ps:start     # Start the app container
+dokku ps                                        # List processes running in app container(s)
+dokku ps:rebuild                                # Rebuild the app
+dokku ps:restart                                # Restart the app container
+dokku ps:start                                  # Start the app container
+dokku ps:scale PROC1=SCALE1 [PROC2=SCALE2 ...]  # Scale one or more Procfile processes
 ```
 
 ## Add SSH key

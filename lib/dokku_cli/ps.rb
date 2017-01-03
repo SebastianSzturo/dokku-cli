@@ -10,6 +10,30 @@ module DokkuCli
       run_command "ps #{app_name}"
     end
 
+    desc "ps:scale PROC1=SCALE1 [PROC2=SCALE2 ...]", "Scale one or more Procfile processes"
+    def ps_scale(*args)
+
+      args = args.map{|arg|
+        key_value = arg.split("=")
+        if key_value.length == 2
+          if key_value[1].index(" ")
+            user = "root"
+            return_value  = "#{key_value[0]}="
+            return_value += '\"'
+            return_value += key_value[1].gsub(/"|'/, "")
+            return_value += '\"'
+            return_value
+          else
+            "#{key_value[0]}=#{key_value[1].gsub(/"|'/, "")}"
+          end
+        else
+          arg
+        end
+      }
+
+      run_command "ps:scale #{app_name} #{args.join " "}"
+    end
+
     desc "ps:rebuild", "Rebuild the app"
     def ps_rebuild
       run_command "ps:rebuild #{app_name}"
