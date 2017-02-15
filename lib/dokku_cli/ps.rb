@@ -3,7 +3,8 @@ module DokkuCli
 
     map "ps:rebuild" => "ps_rebuild",
         "ps:restart" => "ps_restart",
-        "ps:start" => "ps_start"
+        "ps:start" => "ps_start",
+        "ps:stop" => "ps_stop"
 
     desc "ps", "List processes running in app container(s)"
     def ps
@@ -23,6 +24,11 @@ module DokkuCli
     desc "ps:start", "Start the app container"
     def ps_start
       run_command "ps:start #{app_name}"
+    end
+
+    desc "ps:stop", "Stop the app container"
+    def ps_stop
+      run_command "ps:stop #{app_name}"
     end
   end
 end
