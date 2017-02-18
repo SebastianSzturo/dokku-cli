@@ -38,6 +38,7 @@ dokku ps           # List processes running in app container(s)
 dokku ps:rebuild   # Rebuild the app
 dokku ps:restart   # Restart the app container
 dokku ps:start     # Start the app container
+dokku ps:stop      # Stop the app container
 ```
 
 ## Add SSH key
