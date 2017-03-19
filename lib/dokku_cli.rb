@@ -29,7 +29,7 @@ module DokkuCli
       else
         # remove unnecessary mapped remote option
         args = args.gsub(/-remote [\S]*/, '')
-        command = "ssh -p #{port} dokku@#{domain} logs #{app_name} #{args}"
+        command = "ssh -t -p #{port} dokku@#{domain} logs #{app_name} #{args}"
         puts "Running #{command}..."
         exec(command)
       end
