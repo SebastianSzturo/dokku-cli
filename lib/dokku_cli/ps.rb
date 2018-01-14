@@ -5,7 +5,7 @@ module DokkuCli
         "ps:restart" => "ps_restart",
         "ps:start" => "ps_start",
         "ps:stop" => "ps_stop",
-        "ps:scale => ps_scale"
+        "ps:scale" => "ps_scale"
 
     desc "ps", "List processes running in app container(s)"
     def ps
