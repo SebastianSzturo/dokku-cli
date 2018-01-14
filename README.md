@@ -88,6 +88,8 @@ Commands:
   dokku ps:rebuild                                 # Rebuild the app
   dokku ps:restart                                 # Restart the app container
   dokku ps:start                                   # Start the app container
+  dokku ps:scale                                   # List the current scale of Procfile processes
+  dokku ps:scale proc1=scale1 [proc2=scale2 ...]   # Scale one or more Procfile processes
   dokku run <cmd>                                  # Run a one-off command in the environment of the app
   dokku ssh                                        # Start an SSH session as root user
   dokku url                                        # Show the first URL for the app
