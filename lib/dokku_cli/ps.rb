@@ -4,7 +4,8 @@ module DokkuCli
     map "ps:rebuild" => "ps_rebuild",
         "ps:restart" => "ps_restart",
         "ps:start" => "ps_start",
-        "ps:stop" => "ps_stop"
+        "ps:stop" => "ps_stop",
+        "ps:scale" => "ps_scale"
 
     desc "ps", "List processes running in app container(s)"
     def ps
@@ -29,6 +30,15 @@ module DokkuCli
     desc "ps:stop", "Stop the app container"
     def ps_stop
       run_command "ps:stop #{app_name}"
+    end
+    
+    desc "ps:scale", "Scale the app processes"
+    def ps_scale(*processes)
+      if processes.empty?
+        run_command "ps:scale #{app_name}"
+      else
+        run_command "ps:scale #{app_name} #{processes.join(' ')}"
+      end
     end
   end
 end
