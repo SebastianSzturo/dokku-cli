@@ -16,7 +16,7 @@ module DokkuCli
       run_command "config:get #{app_name} #{key}"
     end
 
-    desc "config:set KEY1=VALUE1 [KEY2=VALUE2 ...]", "Set one or more environment variables"
+    desc "config:set [--no-restart] KEY1=VALUE1 [KEY2=VALUE2 ...]", "Set one or more environment variables"
     def config_set(*args)
       # FIXME: Requires root to send config values with spaces
       user = "dokku"
@@ -41,15 +41,15 @@ module DokkuCli
 
       command  = "ssh -p #{port} #{user}@#{domain} "
       command += user == "root" ? "dokku " : ""
-      command += "config:set #{app_name} #{args.join(' ')}"
+      command += "config:set #{command_args(app_name, args)}"
 
       puts "Running #{command}..."
       exec(command)
     end
 
-    desc "config:unset KEY1 [KEY2 ...] ", "Unset one or more environment variables"
+    desc "config:unset [--no-restart] KEY1 [KEY2 ...] ", "Unset one or more environment variables"
     def config_unset(*args)
-      run_command "config:unset #{app_name} #{args.join(' ')}"
+      run_command "config:unset #{command_args(app_name, args)}"
     end
 
     desc "config:set:file path/to/file", "Set one or more environment variables from file"
@@ -63,6 +63,13 @@ module DokkuCli
       else
         puts "File #{config_file} does not exist."
       end
+    end
+
+    private
+
+    def command_args(app_name, args)
+      no_restart = args.shift if args.first == '--no-restart'
+      [no_restart, app_name, args].flatten.compact.join(' ')
     end
   end
 end
